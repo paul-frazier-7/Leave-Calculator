@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
+<style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -183,16 +183,16 @@
             font-weight: bold;
         }
         .calendar-day {
-    background: white;
-    padding: 8px;        /* Increased padding */
-    min-height: 200px;   /* Increased from 140px to 180px */
-    border: none;
-    font-size: 12px;     /* Increased font size */
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
+            background: white;
+            padding: 8px;
+            min-height: 200px;
+            border: none;
+            font-size: 12px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
         .calendar-day:hover {
             background: #f8f9fa;
         }
@@ -425,6 +425,365 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+        }
+
+        /* Mobile and Tablet Responsive Styles */
+        @media screen and (max-width: 1024px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                order: 2;
+                max-height: 400px;
+            }
+            
+            .main-content {
+                order: 1;
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .calendar-day {
+                min-height: 120px;
+                padding: 4px;
+                font-size: 10px;
+            }
+            
+            .day-number {
+                font-size: 14px;
+                margin-bottom: 4px;
+            }
+            
+            .balance-line {
+                font-size: 10px;
+                margin-bottom: 1px;
+            }
+            
+            .rdo-indicator {
+                font-size: 7px;
+                padding: 2px 3px;
+                min-width: 24px;
+            }
+            
+            .entry-type-amount {
+                font-size: 9px;
+            }
+            
+            .entry-purpose-short {
+                font-size: 8px;
+                max-height: 16px;
+            }
+            
+            .calendar-nav {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 8px;
+            }
+            
+            .nav-left, .nav-right {
+                gap: 5px;
+            }
+            
+            .nav-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .month-year {
+                font-size: 16px;
+                order: -1;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .config-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .main-content {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 10px;
+                border-radius: 0;
+            }
+            
+            .calendar-day {
+                min-height: 100px;
+                padding: 3px;
+                font-size: 9px;
+            }
+            
+            .day-number {
+                font-size: 12px;
+                margin-bottom: 3px;
+            }
+            
+            .balance-line {
+                font-size: 9px;
+                margin-bottom: 1px;
+            }
+            
+            .rdo-indicator {
+                font-size: 6px;
+                padding: 1px 2px;
+                min-width: 20px;
+                top: 1px;
+                right: 1px;
+            }
+            
+            .entry-type-amount {
+                font-size: 8px;
+            }
+            
+            .entry-purpose-short {
+                font-size: 7px;
+                max-height: 14px;
+                -webkit-line-clamp: 1;
+            }
+            
+            .calendar-entry {
+                padding: 2px;
+                margin-bottom: 2px;
+            }
+            
+            .entry-delete-calendar {
+                width: 12px;
+                height: 12px;
+                font-size: 7px;
+            }
+            
+            .nav-button {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+            
+            .gear-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            
+            .month-year {
+                font-size: 14px;
+            }
+            
+            h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .sidebar {
+                padding: 15px;
+                max-height: 300px;
+            }
+            
+            .sidebar h2 {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+            
+            .sidebar h3 {
+                font-size: 14px;
+                margin-bottom: 10px;
+                margin-top: 15px;
+            }
+            
+            .add-entry-form, .award-ly-form {
+                padding: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .entries-list {
+                max-height: 200px;
+            }
+            
+            .entry-item {
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+            
+            .modal-content {
+                padding: 15px;
+                margin: 5px;
+            }
+            
+            .modal-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .modal-close {
+                align-self: flex-end;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .calendar-day {
+                min-height: 80px;
+                padding: 2px;
+                font-size: 8px;
+            }
+            
+            .day-number {
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+            
+            .balance-line {
+                font-size: 8px;
+            }
+            
+            .rdo-indicator {
+                font-size: 5px;
+                padding: 1px;
+                min-width: 16px;
+            }
+            
+            .entry-type-amount {
+                font-size: 7px;
+            }
+            
+            .entry-purpose-short {
+                font-size: 6px;
+                max-height: 12px;
+            }
+            
+            .calendar-nav {
+                padding: 5px;
+            }
+            
+            .nav-button {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+            
+            .gear-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+            
+            .month-year {
+                font-size: 12px;
+            }
+            
+            h1 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            
+            .calendar-header {
+                padding: 5px;
+                font-size: 10px;
+            }
+            
+            .sidebar {
+                padding: 10px;
+                max-height: 250px;
+            }
+            
+            .sidebar h2 {
+                font-size: 14px;
+            }
+            
+            .sidebar h3 {
+                font-size: 12px;
+            }
+            
+            .input-group input, .input-group select, .input-group textarea {
+                padding: 6px;
+                font-size: 12px;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .app-container {
+                flex-direction: row;
+            }
+            
+            .sidebar {
+                width: 300px;
+                order: 1;
+                border-right: 1px solid #ddd;
+                border-bottom: none;
+                max-height: none;
+                font-size: 12px;
+            }
+            
+            .main-content {
+                order: 2;
+            }
+            
+            .calendar-day {
+                min-height: 60px;
+                font-size: 8px;
+            }
+            
+            .sidebar h2, .sidebar h3 {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+            
+            .add-entry-form, .award-ly-form {
+                padding: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .entries-list {
+                max-height: 150px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .nav-button, .gear-icon {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+            
+            .calendar-day {
+                touch-action: manipulation;
+            }
+            
+            .entry-delete-calendar {
+                min-width: 20px;
+                min-height: 20px;
+            }
+            
+            .modal-close {
+                min-height: 44px;
+                min-width: 60px;
+            }
         }
     </style>
 </head>
