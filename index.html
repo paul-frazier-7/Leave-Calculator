@@ -433,14 +433,14 @@
                 flex-direction: column;
             }
             
-            .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-                order: 2;
-                max-height: 300px;
-                padding: 10px;
-            }
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        order: 2;
+        max-height: 50vh; /* Increased from 300px to 50% of viewport height */
+        padding: 10px;
+    }
             
             .main-content {
                 order: 1;
@@ -493,14 +493,14 @@
                 flex-direction: column;
             }
             
-            .sidebar {
-                width: 100%;
-                order: 2;
-                max-height: 250px;
-                padding: 8px;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-            }
+    .sidebar {
+        width: 100%;
+        order: 2;
+        max-height: 55vh; /* Increased from 250px to 55% of viewport height */
+        padding: 8px;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
             
             .main-content {
                 order: 1;
@@ -547,14 +547,14 @@
                 flex-direction: column;
             }
             
-            .sidebar {
-                width: 100%;
-                order: 2;
-                max-height: 200px;
-                padding: 6px;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-            }
+    .sidebar {
+        width: 100%;
+        order: 2;
+        max-height: 60vh; /* Increased from 200px to 60% of viewport height */
+        padding: 6px;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
             
             .main-content {
                 order: 1;
@@ -688,31 +688,31 @@
             }
         }
 
-        /* Portrait orientation - calendar on top, sidebar below */
-        @media screen and (max-width: 768px) and (orientation: portrait) {
-            .app-container {
-                flex-direction: column !important;
-            }
-            
-            .main-content {
-                order: 1 !important;
-                padding: 10px;
-            }
-            
-            .sidebar {
-                order: 2 !important;
-                width: 100% !important;
-                border-right: none !important;
-                border-top: 2px solid #007bff !important;
-                border-bottom: none !important;
-                max-height: 40vh !important; /* 40% of viewport height */
-                overflow-y: auto;
-            }
-            
-            .calendar {
-                margin-bottom: 10px;
-            }
-        }
+/* Portrait orientation - calendar on top, sidebar below */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .app-container {
+        flex-direction: column !important;
+    }
+    
+    .main-content {
+        order: 1 !important;
+        padding: 10px;
+    }
+    
+    .sidebar {
+        order: 2 !important;
+        width: 100% !important;
+        border-right: none !important;
+        border-top: 2px solid #007bff !important;
+        border-bottom: none !important;
+        max-height: 60vh !important; /* Increased from 40vh to 60vh */
+        overflow-y: auto;
+    }
+    
+    .calendar {
+        margin-bottom: 10px;
+    }
+}
 
         /* Touch-friendly improvements */
         @media (hover: none) and (pointer: coarse) {
