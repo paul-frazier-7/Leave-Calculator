@@ -429,299 +429,64 @@
 
         /* Mobile and Tablet Responsive Styles */
         @media screen and (max-width: 1024px) {
-            .app-container {
-                flex-direction: column;
-            }
-            
             .sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-                order: 2;
-                max-height: 400px;
+                max-height: 300px; /* Reduced from 400px */
+                padding: 10px; /* Reduced padding */
             }
-            
-            .main-content {
-                order: 1;
-                padding: 15px;
+
+            .add-entry-form, .award-ly-form {
+                padding: 10px; /* Reduced from 15px */
+                margin-bottom: 15px; /* Reduced from 20px */
             }
-            
-            .container {
-                padding: 15px;
+
+            .input-group {
+                margin-bottom: 10px; /* Reduced from 15px */
             }
-            
-            .calendar-day {
-                min-height: 120px;
-                padding: 4px;
-                font-size: 10px;
-            }
-            
-            .day-number {
-                font-size: 14px;
-                margin-bottom: 4px;
-            }
-            
-            .balance-line {
-                font-size: 10px;
-                margin-bottom: 1px;
-            }
-            
-            .rdo-indicator {
-                font-size: 7px;
-                padding: 2px 3px;
-                min-width: 24px;
-            }
-            
-            .entry-type-amount {
-                font-size: 9px;
-            }
-            
-            .entry-purpose-short {
-                font-size: 8px;
-                max-height: 16px;
-            }
-            
-            .calendar-nav {
-                flex-wrap: wrap;
-                gap: 10px;
-                padding: 8px;
-            }
-            
-            .nav-left, .nav-right {
-                gap: 5px;
-            }
-            
-            .nav-button {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-            
-            .month-year {
+
+            .sidebar h2 {
+                margin-bottom: 15px; /* Reduced from 20px */
                 font-size: 16px;
-                order: -1;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 10px;
             }
-            
-            h1 {
-                font-size: 24px;
-                margin-bottom: 20px;
+
+            .sidebar h3 {
+                margin-bottom: 10px; /* Reduced from 15px */
+                margin-top: 15px; /* Reduced from 25px */
+                font-size: 14px;
             }
-            
-            .modal-content {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            .config-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
+
+            .entries-list {
+                max-height: 200px; /* Reduced from 400px */
             }
         }
 
         @media screen and (max-width: 768px) {
-            .main-content {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 10px;
-                border-radius: 0;
-            }
-            
-            .calendar-day {
-                min-height: 100px;
-                padding: 3px;
-                font-size: 9px;
-            }
-            
-            .day-number {
-                font-size: 12px;
-                margin-bottom: 3px;
-            }
-            
-            .balance-line {
-                font-size: 9px;
-                margin-bottom: 1px;
-            }
-            
-            .rdo-indicator {
-                font-size: 6px;
-                padding: 1px 2px;
-                min-width: 20px;
-                top: 1px;
-                right: 1px;
-            }
-            
-            .entry-type-amount {
-                font-size: 8px;
-            }
-            
-            .entry-purpose-short {
-                font-size: 7px;
-                max-height: 14px;
-                -webkit-line-clamp: 1;
-            }
-            
-            .calendar-entry {
-                padding: 2px;
-                margin-bottom: 2px;
-            }
-            
-            .entry-delete-calendar {
-                width: 12px;
-                height: 12px;
-                font-size: 7px;
-            }
-            
-            .nav-button {
-                padding: 6px 8px;
-                font-size: 11px;
-            }
-            
-            .gear-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 14px;
-            }
-            
-            .month-year {
-                font-size: 14px;
-            }
-            
-            h1 {
-                font-size: 20px;
-                margin-bottom: 15px;
-            }
-            
             .sidebar {
-                padding: 15px;
-                max-height: 300px;
-            }
-            
-            .sidebar h2 {
-                font-size: 16px;
-                margin-bottom: 15px;
-            }
-            
-            .sidebar h3 {
-                font-size: 14px;
-                margin-bottom: 10px;
-                margin-top: 15px;
-            }
-            
-            .add-entry-form, .award-ly-form {
-                padding: 10px;
-                margin-bottom: 15px;
-            }
-            
-            .entries-list {
-                max-height: 200px;
-            }
-            
-            .entry-item {
+                max-height: 250px; /* Even smaller on mobile */
                 padding: 8px;
+            }
+
+            .add-entry-form {
+                padding: 8px;
+                margin-bottom: 10px;
+            }
+
+            .input-group {
                 margin-bottom: 8px;
             }
-            
-            .modal-content {
-                padding: 15px;
-                margin: 5px;
-            }
-            
-            .modal-header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-            
-            .modal-close {
-                align-self: flex-end;
+
+            .entries-list {
+                max-height: 150px; /* Much smaller on mobile */
             }
         }
 
         @media screen and (max-width: 480px) {
-            .calendar-day {
-                min-height: 80px;
-                padding: 2px;
-                font-size: 8px;
-            }
-            
-            .day-number {
-                font-size: 11px;
-                margin-bottom: 2px;
-            }
-            
-            .balance-line {
-                font-size: 8px;
-            }
-            
-            .rdo-indicator {
-                font-size: 5px;
-                padding: 1px;
-                min-width: 16px;
-            }
-            
-            .entry-type-amount {
-                font-size: 7px;
-            }
-            
-            .entry-purpose-short {
-                font-size: 6px;
-                max-height: 12px;
-            }
-            
-            .calendar-nav {
-                padding: 5px;
-            }
-            
-            .nav-button {
-                padding: 4px 6px;
-                font-size: 10px;
-            }
-            
-            .gear-icon {
-                width: 28px;
-                height: 28px;
-                font-size: 12px;
-            }
-            
-            .month-year {
-                font-size: 12px;
-            }
-            
-            h1 {
-                font-size: 18px;
-                margin-bottom: 10px;
-            }
-            
-            .calendar-header {
-                padding: 5px;
-                font-size: 10px;
-            }
-            
             .sidebar {
-                padding: 10px;
-                max-height: 250px;
-            }
-            
-            .sidebar h2 {
-                font-size: 14px;
-            }
-            
-            .sidebar h3 {
-                font-size: 12px;
-            }
-            
-            .input-group input, .input-group select, .input-group textarea {
+                max-height: 200px; /* Very compact on small mobile */
                 padding: 6px;
-                font-size: 12px;
             }
-            
-            .btn {
-                padding: 6px 12px;
-                font-size: 12px;
+
+            .entries-list {
+                max-height: 120px;
             }
         }
 
@@ -811,10 +576,6 @@
                 amount: '',
                 purpose: ''
             });
-            const [lyAwardForm, setLyAwardForm] = useState({
-                amount: '',
-                reason: ''
-            });
 
             // Load data from localStorage on component mount
             useEffect(() => {
@@ -853,10 +614,10 @@
 
             const addLeaveEntry = () => {
                 if (!selectedDate || !entryForm.amount || !entryForm.purpose) {
-                    alert('Please select a date and fill in all fields');
-                    return;
-                }
-
+        alert('Please select a date and fill in all fields');
+        return;
+    }
+            
                 const newEntry = {
                     id: Date.now(),
                     date: getDateKey(selectedDate),
@@ -865,31 +626,30 @@
                     purpose: entryForm.purpose,
                     isUsage: true
                 };
-
+            
                 setLeaveEntries(prev => [...prev, newEntry]);
                 setEntryForm({ type: 'la', amount: '', purpose: '' });
             };
-
+            
             const awardLYTime = () => {
-                if (!selectedDate || !lyAwardForm.amount || !lyAwardForm.reason) {
+                if (!selectedDate || !entryForm.amount || !entryForm.purpose) {
                     alert('Please select a date and fill in all fields');
                     return;
                 }
-
+            
                 const newAward = {
                     id: Date.now(),
                     date: getDateKey(selectedDate),
                     type: 'ly',
-                    amount: parseFloat(lyAwardForm.amount),
-                    purpose: lyAwardForm.reason,
+                    amount: parseFloat(entryForm.amount),
+                    purpose: entryForm.purpose,
                     isUsage: false,
                     isAward: true
                 };
-
+            
                 setLeaveEntries(prev => [...prev, newAward]);
-                setLyAwardForm({ amount: '', reason: '' });
+                setEntryForm({ type: 'la', amount: '', purpose: '' });
             };
-
             const deleteEntry = (entryId) => {
                 setLeaveEntries(prev => prev.filter(entry => entry.id !== entryId));
             };
@@ -1056,17 +816,17 @@
             return (
                 <div className="app-container">
                     <div className="sidebar">
-                        <h2>Leave Entry</h2>
-                        
+                        <h2>Leave Management</h2>
+
                         {selectedDate && (
                             <div className="selected-date-info">
                                 Selected: {formatDate(selectedDate)}
                             </div>
                         )}
-
+                        
                         <div className="add-entry-form">
                             <div className="input-group">
-                                <label>Leave Type:</label>
+                                <label>Entry Type:</label>
                                 <select 
                                     value={entryForm.type} 
                                     onChange={(e) => setEntryForm(prev => ({...prev, type: e.target.value}))}
@@ -1074,66 +834,47 @@
                                     <option value="la">LA (Annual Leave)</option>
                                     <option value="ls">LS (Sick Leave)</option>
                                     <option value="ly">LY (Time Off Award)</option>
+                                    <option value="ly-award">Award LY Time</option>
                                 </select>
                             </div>
-                            
+
                             <div className="input-group">
-                                <label>Hours Used:</label>
+                                <label>
+                                    {entryForm.type === 'ly-award' ? 'Hours Awarded:' : 'Hours Used:'}
+                                </label>
                                 <input
                                     type="number"
                                     step="0.1"
                                     value={entryForm.amount}
                                     onChange={(e) => setEntryForm(prev => ({...prev, amount: e.target.value}))}
-                                    placeholder="Enter hours"
+                                    placeholder={entryForm.type === 'ly-award' ? 'Enter hours to award' : 'Enter hours used'}
                                 />
                             </div>
-                            
+
                             <div className="input-group">
-                                <label>Purpose/Note:</label>
+                                <label>
+                                    {entryForm.type === 'ly-award' ? 'Reason for Award:' : 'Purpose/Note:'}
+                                </label>
                                 <textarea
                                     value={entryForm.purpose}
                                     onChange={(e) => setEntryForm(prev => ({...prev, purpose: e.target.value}))}
-                                    placeholder="Enter reason for leave"
+                                    placeholder={entryForm.type === 'ly-award' ? 'Enter reason for LY award' : 'Enter reason for leave'}
                                 />
                             </div>
-                            
-                            <button className="btn" onClick={addLeaveEntry}>
-                                Add Leave Entry
+
+                            <button 
+                                className={`btn ${entryForm.type === 'ly-award' ? 'btn-success' : ''}`} 
+                                onClick={entryForm.type === 'ly-award' ? awardLYTime : addLeaveEntry}
+                            >
+                                {entryForm.type === 'ly-award' ? 'Award LY Time' : 'Add Leave Entry'}
                             </button>
                         </div>
-
-                        <h3>Award LY Time</h3>
-                        <div className="award-ly-form">
-                            <div className="input-group">
-                                <label>Hours Awarded:</label>
-                                <input
-                                    type="number"
-                                    step="0.1"
-                                    value={lyAwardForm.amount}
-                                    onChange={(e) => setLyAwardForm(prev => ({...prev, amount: e.target.value}))}
-                                    placeholder="Enter hours to award"
-                                />
-                            </div>
-                            
-                            <div className="input-group">
-                                <label>Reason for Award:</label>
-                                <textarea
-                                    value={lyAwardForm.reason}
-                                    onChange={(e) => setLyAwardForm(prev => ({...prev, reason: e.target.value}))}
-                                    placeholder="Enter reason for LY award"
-                                />
-                            </div>
-                            
-                            <button className="btn btn-success" onClick={awardLYTime}>
-                                Award LY Time
-                            </button>
-                        </div>
-
+                    
                         <h2>All Entries</h2>
                         <button className="btn btn-danger" onClick={clearAllEntries} style={{marginBottom: '15px'}}>
                             Clear All Entries
                         </button>
-                        
+
                         <div className="entries-list">
                             {leaveEntries
                                 .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -1172,7 +913,6 @@
                             )}
                         </div>
                     </div>
-
                     <div className="main-content">
                         <div className="container">
                             <h1>Leave Balance Calculator</h1>
