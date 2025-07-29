@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Balance Calculator</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .input-group input, .input-group select, .input-group textarea {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .input-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .sidebar h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        .sidebar h3 {
+            color: #333;
+            margin-bottom: 15px;
+            margin-top: 25px;
+            border-bottom: 1px solid #28a745;
+            padding-bottom: 5px;
+            color: #28a745;
+        }
+        .add-entry-form, .award-ly-form {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .award-ly-form {
+            border-color: #c3e6cb;
+            background: #f8fff9;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .entries-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .entry-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .entry-item.ly-award {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .entry-date {
+            font-weight: bold;
+            color: #333;
+        }
+        .entry-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .entry-details {
+            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .entry-type {
+            font-weight: bold;
+        }
+        .ly-award-indicator {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .ls { color: #dc3545; }
+        .la { color: #007bff; }
+        .ly { color: #28a745; }
+        .entry-note {
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+            font-size: 11px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #ddd;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .calendar-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .calendar-day {
+    background: white;
+    padding: 8px;        /* Increased padding */
+    min-height: 200px;   /* Increased from 140px to 180px */
+    border: none;
+    font-size: 12px;     /* Increased font size */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+        .calendar-day:hover {
+            background: #f8f9fa;
+        }
+        .calendar-day.selected {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+        }
+        .calendar-day.other-month {
+            background: #f8f9fa;
+            color: #6c757d;
+        }
+        .calendar-day.accrual-day {
+            background: #e3f2fd;
+            border-left: 4px solid #007bff;
+        }
+        .calendar-day.rdo-payday {
+            background: #e8f5e8;
+            border-right: 4px solid #155724;
+        }
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 16px;
+        }
+        .rdo-indicator {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #155724;
+            color: white;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: bold;
+            line-height: 1.1;
+            text-align: center;
+            z-index: 10;
+            min-width: 32px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .balance-section {
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+        .balance-line {
+            margin-bottom: 2px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .entries-display {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .calendar-entry {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 3px;
+            padding: 4px;
+            margin-bottom: 4px;
+            font-size: 9px;
+            position: relative;
+        }
+        .calendar-entry.ls-entry {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .calendar-entry.la-entry {
+            background: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        .calendar-entry.ly-entry {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .calendar-entry.ly-award {
+            background: #d1f2eb;
+            border: 2px solid #28a745;
+        }
+        .entry-type-amount {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+        .entry-purpose-short {
+            font-size: 10px;
+            color: #666;
+            line-height: 1.2;
+            max-height: 24px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .nav-button:hover {
+            background: #0056b3;
+        }
+        .gear-icon {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gear-icon:hover {
+            background: #5a6268;
+        }
+        .month-year {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        .negative-balance {
+            color: #dc3545 !important;
+            font-weight: bold;
+        }
+        .selected-date-info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        .entry-delete-calendar {
+            position: absolute;
+            top: 1px;
+            right: 2px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            font-size: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .entry-delete-calendar:hover {
+            background: #c82333;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .modal-close {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .modal-close:hover {
+            background: #c82333;
+        }
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        function LeaveBalanceCalculator() {
+            const [config, setConfig] = useState({
+                ls: 0,
+                la: 0,
+                ly: 0,
+                payPeriodStart: '',
+                payPeriodEnd: ''
+            });
+            
+            const [currentDate, setCurrentDate] = useState(new Date());
+            const [selectedDate, setSelectedDate] = useState(null);
+            const [leaveEntries, setLeaveEntries] = useState([]);
+            const [showConfigModal, setShowConfigModal] = useState(false);
+            const [entryForm, setEntryForm] = useState({
+                type: 'la',
+                amount: '',
+                purpose: ''
+            });
+            const [lyAwardForm, setLyAwardForm] = useState({
+                amount: '',
+                reason: ''
+            });
+
+            // Load data from localStorage on component mount
+            useEffect(() => {
+                const savedConfig = localStorage.getItem('leaveCalcConfig');
+                const savedEntries = localStorage.getItem('leaveCalcEntries');
+                
+                if (savedConfig) {
+                    setConfig(JSON.parse(savedConfig));
+                }
+                
+                if (savedEntries) {
+                    setLeaveEntries(JSON.parse(savedEntries));
+                }
+            }, []);
+
+            // Save config to localStorage whenever it changes
+            useEffect(() => {
+                localStorage.setItem('leaveCalcConfig', JSON.stringify(config));
+            }, [config]);
+
+            // Save entries to localStorage whenever they change
+            useEffect(() => {
+                localStorage.setItem('leaveCalcEntries', JSON.stringify(leaveEntries));
+            }, [leaveEntries]);
+
+            const handleConfigChange = (field, value) => {
+                setConfig(prev => ({
+                    ...prev,
+                    [field]: value
+                }));
+            };
+
+            const getDateKey = (date) => {
+                return date.toISOString().split('T')[0];
+            };
+
+            const addLeaveEntry = () => {
+                if (!selectedDate || !entryForm.amount || !entryForm.purpose) {
+                    alert('Please select a date and fill in all fields');
+                    return;
+                }
+
+                const newEntry = {
+                    id: Date.now(),
+                    date: getDateKey(selectedDate),
+                    type: entryForm.type,
+                    amount: parseFloat(entryForm.amount),
+                    purpose: entryForm.purpose,
+                    isUsage: true
+                };
+
+                setLeaveEntries(prev => [...prev, newEntry]);
+                setEntryForm({ type: 'la', amount: '', purpose: '' });
+            };
+
+            const awardLYTime = () => {
+                if (!selectedDate || !lyAwardForm.amount || !lyAwardForm.reason) {
+                    alert('Please select a date and fill in all fields');
+                    return;
+                }
+
+                const newAward = {
+                    id: Date.now(),
+                    date: getDateKey(selectedDate),
+                    type: 'ly',
+                    amount: parseFloat(lyAwardForm.amount),
+                    purpose: lyAwardForm.reason,
+                    isUsage: false,
+                    isAward: true
+                };
+
+                setLeaveEntries(prev => [...prev, newAward]);
+                setLyAwardForm({ amount: '', reason: '' });
+            };
+
+            const deleteEntry = (entryId) => {
+                setLeaveEntries(prev => prev.filter(entry => entry.id !== entryId));
+            };
+
+            const clearAllEntries = () => {
+                if (confirm('Are you sure you want to clear all leave entries?')) {
+                    setLeaveEntries([]);
+                }
+            };
+
+            const goToToday = () => {
+                setCurrentDate(new Date());
+                setSelectedDate(new Date());
+            };
+
+            const getLeaveBalanceForDate = (date) => {
+                if (!config.payPeriodStart || !config.payPeriodEnd) {
+                    let baseBalance = {
+                        ls: parseFloat(config.ls) || 0,
+                        la: parseFloat(config.la) || 0,
+                        ly: parseFloat(config.ly) || 0
+                    };
+
+                    // Process all entries up to and including this date
+                    const relevantEntries = leaveEntries.filter(entry => {
+                        const entryDate = new Date(entry.date);
+                        return entryDate <= date;
+                    });
+
+                    relevantEntries.forEach(entry => {
+                        if (entry.isAward) {
+                            // Add awarded time
+                            baseBalance[entry.type] += entry.amount;
+                        } else {
+                            // Subtract used time
+                            baseBalance[entry.type] -= entry.amount;
+                        }
+                    });
+
+                    return baseBalance;
+                }
+
+                const payPeriodStart = new Date(config.payPeriodStart);
+                const payPeriodEnd = new Date(config.payPeriodEnd);
+                
+                const firstAccrualDate = new Date(payPeriodEnd);
+                firstAccrualDate.setDate(firstAccrualDate.getDate() + 1);
+                
+                let periodsCompleted = 0;
+                if (date >= firstAccrualDate) {
+                    const daysSinceFirstAccrual = Math.floor((date - firstAccrualDate) / (1000 * 60 * 60 * 24));
+                    periodsCompleted = Math.floor(daysSinceFirstAccrual / 14) + 1;
+                }
+
+                let baseBalance = {
+                    ls: (parseFloat(config.ls) || 0) + (periodsCompleted * 4),
+                    la: (parseFloat(config.la) || 0) + (periodsCompleted * 6),
+                    ly: parseFloat(config.ly) || 0
+                };
+
+                // Process all entries up to and including this date
+                const relevantEntries = leaveEntries.filter(entry => {
+                    const entryDate = new Date(entry.date);
+                    return entryDate <= date;
+                });
+
+                relevantEntries.forEach(entry => {
+                    if (entry.isAward) {
+                        // Add awarded time
+                        baseBalance[entry.type] += entry.amount;
+                    } else {
+                        // Subtract used time
+                        baseBalance[entry.type] -= entry.amount;
+                    }
+                });
+
+                return baseBalance;
+            };
+
+            const isAccrualDay = (date) => {
+                if (!config.payPeriodStart || !config.payPeriodEnd) return false;
+                
+                const payPeriodEnd = new Date(config.payPeriodEnd);
+                const firstAccrualDate = new Date(payPeriodEnd);
+                firstAccrualDate.setDate(firstAccrualDate.getDate() + 1);
+                
+                if (date < firstAccrualDate) return false;
+                
+                const daysSinceFirstAccrual = Math.floor((date - firstAccrualDate) / (1000 * 60 * 60 * 24));
+                return daysSinceFirstAccrual % 14 === 0;
+            };
+
+            const isRDOPayday = (date) => {
+                // Check if current date is a Friday first
+                if (date.getDay() !== 5) return false;
+                
+                // Fixed start date: January 3, 2025 (which is a Friday)
+                const firstRDOFriday = new Date('2025-01-03');
+                
+                // Check if it's before the first RDO Friday
+                if (date.getTime() < firstRDOFriday.getTime()) return false;
+                
+                // Calculate days since first RDO Friday
+                const daysSinceFirstRDO = Math.floor((date.getTime() - firstRDOFriday.getTime()) / (1000 * 60 * 60 * 24));
+                return daysSinceFirstRDO % 14 === 0;
+            };
+
+            const getEntriesForDate = (date) => {
+                const dateKey = getDateKey(date);
+                return leaveEntries.filter(entry => entry.date === dateKey);
+            };
+
+            const getDaysInMonth = (date) => {
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const startDate = new Date(firstDay);
+                startDate.setDate(startDate.getDate() - firstDay.getDay());
+                
+                const days = [];
+                const currentDay = new Date(startDate);
+                
+                for (let i = 0; i < 42; i++) {
+                    days.push(new Date(currentDay));
+                    currentDay.setDate(currentDay.getDate() + 1);
+                }
+                
+                return days;
+            };
+
+            const monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            const navigateMonth = (direction) => {
+                setCurrentDate(prev => {
+                    const newDate = new Date(prev);
+                    newDate.setMonth(prev.getMonth() + direction);
+                    return newDate;
+                });
+            };
+
+            const formatDate = (date) => {
+                return date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            };
+
+            const truncateText = (text, maxLength = 25) => {
+                return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+            };
+
+            const days = getDaysInMonth(currentDate);
+            const currentMonth = currentDate.getMonth();
+
+            return (
+                <div className="app-container">
+                    <div className="sidebar">
+                        <h2>Leave Entry</h2>
+                        
+                        {selectedDate && (
+                            <div className="selected-date-info">
+                                Selected: {formatDate(selectedDate)}
+                            </div>
+                        )}
+
+                        <div className="add-entry-form">
+                            <div className="input-group">
+                                <label>Leave Type:</label>
+                                <select 
+                                    value={entryForm.type} 
+                                    onChange={(e) => setEntryForm(prev => ({...prev, type: e.target.value}))}
+                                >
+                                    <option value="la">LA (Annual Leave)</option>
+                                    <option value="ls">LS (Sick Leave)</option>
+                                    <option value="ly">LY (Time Off Award)</option>
+                                </select>
+                            </div>
+                            
+                            <div className="input-group">
+                                <label>Hours Used:</label>
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    value={entryForm.amount}
+                                    onChange={(e) => setEntryForm(prev => ({...prev, amount: e.target.value}))}
+                                    placeholder="Enter hours"
+                                />
+                            </div>
+                            
+                            <div className="input-group">
+                                <label>Purpose/Note:</label>
+                                <textarea
+                                    value={entryForm.purpose}
+                                    onChange={(e) => setEntryForm(prev => ({...prev, purpose: e.target.value}))}
+                                    placeholder="Enter reason for leave"
+                                />
+                            </div>
+                            
+                            <button className="btn" onClick={addLeaveEntry}>
+                                Add Leave Entry
+                            </button>
+                        </div>
+
+                        <h3>Award LY Time</h3>
+                        <div className="award-ly-form">
+                            <div className="input-group">
+                                <label>Hours Awarded:</label>
+                                <input
+                                    type="number"
+                                    step="0.1"
+                                    value={lyAwardForm.amount}
+                                    onChange={(e) => setLyAwardForm(prev => ({...prev, amount: e.target.value}))}
+                                    placeholder="Enter hours to award"
+                                />
+                            </div>
+                            
+                            <div className="input-group">
+                                <label>Reason for Award:</label>
+                                <textarea
+                                    value={lyAwardForm.reason}
+                                    onChange={(e) => setLyAwardForm(prev => ({...prev, reason: e.target.value}))}
+                                    placeholder="Enter reason for LY award"
+                                />
+                            </div>
+                            
+                            <button className="btn btn-success" onClick={awardLYTime}>
+                                Award LY Time
+                            </button>
+                        </div>
+
+                        <h2>All Entries</h2>
+                        <button className="btn btn-danger" onClick={clearAllEntries} style={{marginBottom: '15px'}}>
+                            Clear All Entries
+                        </button>
+                        
+                        <div className="entries-list">
+                            {leaveEntries
+                                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                                .map(entry => (
+                                <div key={entry.id} className={`entry-item ${entry.isAward ? 'ly-award' : ''}`}>
+                                    <div className="entry-header">
+                                        <span className="entry-date">
+                                            {new Date(entry.date).toLocaleDateString()}
+                                        </span>
+                                        <button 
+                                            className="entry-delete"
+                                            onClick={() => deleteEntry(entry.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                    <div className="entry-details">
+                                        <span className={`entry-type ${entry.type}`}>
+                                            {entry.type.toUpperCase()}: {entry.isAward ? '+' : '-'}{entry.amount} hours
+                                        </span>
+                                        {entry.isAward && (
+                                            <span className="ly-award-indicator">
+                                                (AWARDED)
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="entry-note">
+                                        {entry.purpose}
+                                    </div>
+                                </div>
+                            ))}
+                            {leaveEntries.length === 0 && (
+                                <div style={{textAlign: 'center', color: '#666', fontStyle: 'italic'}}>
+                                    No entries yet
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="main-content">
+                        <div className="container">
+                            <h1>Leave Balance Calculator</h1>
+                            
+                            <div className="calendar-nav">
+                                <div className="nav-left">
+                                    <button className="nav-button" onClick={() => navigateMonth(-1)}>
+                                        ← Previous
+                                    </button>
+                                    <button className="nav-button" onClick={goToToday}>
+                                        Today
+                                    </button>
+                                </div>
+                                <div className="month-year">
+                                    {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                                </div>
+                                <div className="nav-right">
+                                    <button className="nav-button" onClick={() => navigateMonth(1)}>
+                                        Next →
+                                    </button>
+                                    <button className="gear-icon" onClick={() => setShowConfigModal(true)}>
+                                        ⚙️
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="calendar">
+                                {dayNames.map(day => (
+                                    <div key={day} className="calendar-header">
+                                        {day}
+                                    </div>
+                                ))}
+                                
+                                {days.map((day, index) => {
+                                    const isCurrentMonth = day.getMonth() === currentMonth;
+                                    const isAccrualDayFlag = isAccrualDay(day);
+                                    const isRDOPaydayFlag = isRDOPayday(day);
+                                    const balance = getLeaveBalanceForDate(day);
+                                    const dayEntries = getEntriesForDate(day);
+                                    const isSelected = selectedDate && getDateKey(day) === getDateKey(selectedDate);
+                                    
+                                    let dayClasses = `calendar-day ${!isCurrentMonth ? 'other-month' : ''} ${isSelected ? 'selected' : ''}`;
+                                    
+                                    if (isAccrualDayFlag) {
+                                        dayClasses += ' accrual-day';
+                                    } else if (isRDOPaydayFlag) {
+                                        dayClasses += ' rdo-payday';
+                                    }
+                                    
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={dayClasses}
+                                            onClick={() => setSelectedDate(day)}
+                                        >
+                                            <div className="day-number">{day.getDate()}</div>
+                                            
+                                            {isRDOPaydayFlag && (
+                                                <div className="rdo-indicator">
+                                                    RDO<br/>Payday
+                                                </div>
+                                            )}
+                                            
+                                            <div className="balance-section">
+                                                <div className={`balance-line ls ${balance.ls < 0 ? 'negative-balance' : ''}`}>
+                                                    LS: {balance.ls.toFixed(1)}
+                                                </div>
+                                                <div className={`balance-line la ${balance.la < 0 ? 'negative-balance' : ''}`}>
+                                                    LA: {balance.la.toFixed(1)}
+                                                </div>
+                                                <div className={`balance-line ly ${balance.ly < 0 ? 'negative-balance' : ''}`}>
+                                                    LY: {balance.ly.toFixed(1)}
+                                                </div>
+                                            </div>
+
+                                            <div className="entries-display">
+                                                {dayEntries.map(entry => (
+                                                    <div 
+                                                        key={entry.id} 
+                                                        className={`calendar-entry ${entry.type}-entry ${entry.isAward ? 'ly-award' : ''}`}
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        <button 
+                                                            className="entry-delete-calendar"
+                                                            onClick={() => deleteEntry(entry.id)}
+                                                            title="Delete entry"
+                                                        >
+                                                            ×
+                                                        </button>
+                                                        <div className={`entry-type-amount ${entry.type}`}>
+                                                            {entry.type.toUpperCase()}: {entry.isAward ? '+' : '-'}{entry.amount}h
+                                                            {entry.isAward && ' ⭐'}
+                                                        </div>
+                                                        <div className="entry-purpose-short" title={entry.purpose}>
+                                                            {truncateText(entry.purpose)}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    {showConfigModal && (
+                        <div className="modal" onClick={() => setShowConfigModal(false)}>
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <div className="modal-header">
+                                    <h2>Configuration</h2>
+                                    <button className="modal-close" onClick={() => setShowConfigModal(false)}>
+                                        Close
+                                    </button>
+                                </div>
+                                
+                                <div className="config-grid">
+                                    <div className="input-group">
+                                        <label>LS (Sick Leave):</label>
+                                        <input
+                                            type="number"
+                                            step="0.1"
+                                            value={config.ls}
+                                            onChange={(e) => handleConfigChange('ls', e.target.value)}
+                                            placeholder="Enter starting LS hours"
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label>LA (Annual Leave):</label>
+                                        <input
+                                            type="number"
+                                            step="0.1"
+                                            value={config.la}
+                                            onChange={(e) => handleConfigChange('la', e.target.value)}
+                                            placeholder="Enter starting LA hours"
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label>LY (Time Off Award):</label>
+                                        <input
+                                            type="number"
+                                            step="0.1"
+                                            value={config.ly}
+                                            onChange={(e) => handleConfigChange('ly', e.target.value)}
+                                            placeholder="Enter LY hours"
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label>Pay Period Start:</label>
+                                        <input
+                                            type="date"
+                                            value={config.payPeriodStart}
+                                            onChange={(e) => handleConfigChange('payPeriodStart', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label>Pay Period End:</label>
+                                        <input
+                                            type="date"
+                                            value={config.payPeriodEnd}
+                                            onChange={(e) => handleConfigChange('payPeriodEnd', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<LeaveBalanceCalculator />, document.getElementById('root'));
+    </script>
+</body>
+</html>
